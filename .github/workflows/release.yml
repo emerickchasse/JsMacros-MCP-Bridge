@@ -1,17 +1,30 @@
 name: Release
 
 on:
-  release:
-    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag (defaults to v<mod_version>)
+        required: false
+        type: string
+  push:
+    branches: [main]
 
 permissions:
   contents: write
 
+concurrency:
+  group: release
+  cancel-in-progress: false
+
 jobs:
-  build:
+  release:
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, '[release]')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up JDK 25 toolchain
         uses: actions/setup-java@v5
@@ -35,20 +48,53 @@ jobs:
       - name: Resolve release version
         id: version
         shell: bash
+        env:
+          REQUESTED_TAG: ${{ inputs.tag }}
         run: |
-          VERSION="${{ github.event.release.tag_name }}"
-          VERSION="${VERSION#v}"
+          VERSION="$(sed -n 's/^mod_version=//p' gradle.properties)"
+          TAG="$REQUESTED_TAG"
+          if [ -z "$TAG" ]; then
+            TAG="v$VERSION"
+          else
+            VERSION="${TAG#v}"
+          fi
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
       - name: Build release JAR
         run: ./gradlew remapFabricJar -Pmod_version=${{ steps.version.outputs.version }}
 
-      - name: Generate checksum
+      - name: Generate SHA-256 checksum
         shell: bash
-        run: cd build/libs && sha256sum *-fabric.jar > SHA256SUMS.txt
+        run: |
+          cd build/libs
+          sha256sum *-fabric.jar > SHA256SUMS.txt
+          sha256sum --check SHA256SUMS.txt
 
-      - name: Upload JAR to GitHub Release
+      - name: Prepare release notes
+        shell: bash
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          awk -v version="$VERSION" '
+            $0 == "## " version { found=1; next }
+            found && /^## / { exit }
+            found { print }
+          ' CHANGELOG.md > RELEASE_NOTES.md
+          if [ ! -s RELEASE_NOTES.md ]; then
+            printf 'JsMacros MCP Bridge %s\n' "$VERSION" > RELEASE_NOTES.md
+          fi
+
+      - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+          VERSION: ${{ steps.version.outputs.version }}
         shell: bash
-        run: gh release upload "${{ github.event.release.tag_name }}" build/libs/*-fabric.jar build/libs/SHA256SUMS.txt --clobber
+        run: |
+          gh release create "$TAG" \
+            build/libs/*-fabric.jar \
+            build/libs/SHA256SUMS.txt \
+            --target "$GITHUB_SHA" \
+            --title "JsMacros MCP Bridge $VERSION" \
+            --notes-file RELEASE_NOTES.md
