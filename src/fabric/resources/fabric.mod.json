@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "jsmacros",
+  "version": "${version}",
+  "name": "JsMacros MCP Bridge",
+  "description": "A programmable MCP bridge embedded directly in the Minecraft client through JsMacros",
+  "authors": [
+    "WagYourTail",
+    "emerickchasse"
+  ],
+  "contributors": [
+    "Pablete1234",
+    "Jack Manning",
+    "grepsedawk"
+  ],
+  "contact": {
+    "homepage": "https://github.com/emerickchasse/JsMacros-MCP-Bridge",
+    "sources": "https://github.com/emerickchasse/JsMacros-MCP-Bridge",
+    "issues": "https://github.com/emerickchasse/JsMacros-MCP-Bridge/issues"
+  },
+  "license": "MPL-2.0",
+  "icon": "assets/jsmacros/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "xyz.wagyourtail.jsmacros.fabric.client.JsMacrosFabric"
+    ],
+    "client": [
+      "xyz.wagyourtail.jsmacros.fabric.client.JsMacrosFabric"
+    ],
+    "modmenu": [
+      "xyz.wagyourtail.jsmacros.fabric.client.ModMenuEntry"
+    ]
+  },
+  "mixins": [
+    "jsmacros-common.mixins.json",
+    "jsmacros-client.mixins.json",
+    "jsmacros-fabric.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "minecraft": ["26.1.2"],
+    "cloth-config2": ">=26.1.154"
+  }
+}

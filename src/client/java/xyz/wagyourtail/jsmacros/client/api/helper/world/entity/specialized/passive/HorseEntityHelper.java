@@ -1,0 +1,25 @@
+package xyz.wagyourtail.jsmacros.client.api.helper.world.entity.specialized.passive;
+
+import net.minecraft.world.entity.animal.equine.Horse;
+import xyz.wagyourtail.jsmacros.client.mixin.access.MixinHorse;
+
+/**
+ * @author Etheradon
+ * @since 1.8.4
+ */
+@SuppressWarnings("unused")
+public class HorseEntityHelper extends AbstractHorseEntityHelper<Horse> {
+
+    public HorseEntityHelper(Horse base) {
+        super(base);
+    }
+
+    /**
+     * @return the variant of this horse.
+     * @since 1.8.4
+     */
+    public int getVariant() {
+        return ((MixinHorse) base).invokeGetTypeVariant();
+    }
+
+}

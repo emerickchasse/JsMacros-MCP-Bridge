@@ -1,0 +1,55 @@
+package xyz.wagyourtail.jsmacros.client.mixin.access;
+
+import net.minecraft.client.multiplayer.chat.GuiMessage;
+import net.minecraft.client.multiplayer.chat.GuiMessageSource;
+import net.minecraft.client.multiplayer.chat.GuiMessageTag;
+import net.minecraft.client.gui.components.ChatComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MessageSignature;
+import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Redirect;
+import xyz.wagyourtail.jsmacros.client.access.IChatHud;
+
+import java.util.List;
+
+@Mixin(ChatComponent.class)
+public abstract class MixinChatComponent implements IChatHud {
+
+    @Shadow
+    private void addMessage(Component message, @Nullable MessageSignature signature, GuiMessageSource source, @Nullable GuiMessageTag indicator) {
+    }
+
+    @Shadow
+    @Final
+    public List<GuiMessage> allMessages;
+
+    @Override
+    public void jsmacros_addMessageBypass(Component message) {
+        addMessage(message, null, GuiMessageSource.SYSTEM_CLIENT, GuiMessageTag.system());
+    }
+
+    @Unique
+    ThreadLocal<Integer> jsmacros$positionOverride = ThreadLocal.withInitial(() -> 0);
+
+    @Override
+    public void jsmacros_addMessageAtIndexBypass(Component message, int index, int time) {
+        jsmacros$positionOverride.set(index);
+        addMessage(message, null, GuiMessageSource.SYSTEM_CLIENT, GuiMessageTag.system());
+        jsmacros$positionOverride.set(0);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Redirect(method = "addMessageToQueue(Lnet/minecraft/client/multiplayer/chat/GuiMessage;)V",
+            at = @At(value = "INVOKE", target = "Ljava/util/List;addFirst(Ljava/lang/Object;)V", remap = false))
+    public void redirectAddFirst(List instance, Object e) {
+        instance.add(jsmacros$positionOverride.get(), e);
+    }
+
+
+}

@@ -1,0 +1,53 @@
+[versions]
+java = "25"
+
+minecraft = "26.1.2"
+
+fabric_loader = "0.19.3"
+
+mixin = "0.8.7"
+mixin_extra = "0.3.2"
+
+asm = "9.8"
+prism4j = "2.0.0"
+joor = "0.9.15"
+nv_websocket = "2.14"
+junit = "5.8.1"
+jb_annotations = "20.1.0"
+javassist = "3.30.2-GA"
+
+fapi = "0.151.0+26.1.2"
+modmenu = "18.0.0-alpha.8"
+cloth_config = "26.1.154"
+
+mcp = "2.0.0"
+tomcat = "11.0.2"
+
+shadow = "8.3.6"
+
+[libraries]
+prism4j = { module = "io.noties:prism4j", version.ref = "prism4j" }
+
+fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
+
+mixin = { module = "org.spongepowered:mixin", version.ref = "mixin" }
+mixin_extra = { module = "io.github.llamalad7:mixinextras-common", version.ref = "mixin_extra" }
+
+asm = { module = "org.ow2.asm:asm", version.ref = "asm" }
+joor = { module = "org.jooq:joor", version.ref = "joor" }
+nv_websocket = { module = "com.neovisionaries:nv-websocket-client", version.ref = "nv_websocket" }
+javassist = { module = "org.javassist:javassist", version.ref = "javassist" }
+
+modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
+cloth_config = { module = "me.shedaniel.cloth:cloth-config-fabric", version.ref = "cloth_config" }
+
+mcp = { module = "io.modelcontextprotocol.sdk:mcp", version.ref = "mcp" }
+tomcat = { module = "org.apache.tomcat.embed:tomcat-embed-core", version.ref = "tomcat" }
+
+junit_api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+junit_engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+
+jb_annotations = { module = "org.jetbrains:annotations", version.ref = "jb_annotations" }
+
+[plugins]
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }

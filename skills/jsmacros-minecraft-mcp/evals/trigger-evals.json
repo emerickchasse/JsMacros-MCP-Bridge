@@ -1,0 +1,102 @@
+[
+  {
+    "query": "Use execute_mc_jsmacros to inspect the block I'm looking at.",
+    "should_trigger": true,
+    "rationale": "Live JsMacros client inspection."
+  },
+  {
+    "query": "Take a screenshot with JsMacros on my 26.1.2 client.",
+    "should_trigger": true,
+    "rationale": "JsMacros screenshot API."
+  },
+  {
+    "query": "Find the exact runOnMainThread signature in JSMacros.",
+    "should_trigger": true,
+    "rationale": "Version-specific JsMacros API lookup."
+  },
+  {
+    "query": "Open this chest and inspect all slot item IDs client-side.",
+    "should_trigger": true,
+    "rationale": "JsMacros inventory/container inspection."
+  },
+  {
+    "query": "Use the Minecraft client to test whether /hub teleports me.",
+    "should_trigger": true,
+    "rationale": "Client-side plugin verification through JsMacros."
+  },
+  {
+    "query": "My JSMacros getNBT fails on enchanted items.",
+    "should_trigger": true,
+    "rationale": "JsMacros version/runtime debugging."
+  },
+  {
+    "query": "Walk forward ten ticks using the client macro and return coordinates.",
+    "should_trigger": true,
+    "rationale": "JsMacros client movement."
+  },
+  {
+    "query": "What entities are within 16 blocks of my client?",
+    "should_trigger": true,
+    "rationale": "World/entity inspection."
+  },
+  {
+    "query": "Interact with this block face through JSMacros.",
+    "should_trigger": true,
+    "rationale": "InteractionManager usage."
+  },
+  {
+    "query": "Make a JsMacros Tick listener and Draw2D overlay.",
+    "should_trigger": true,
+    "rationale": "Events/HUD scripting."
+  },
+  {
+    "query": "Write the Paper plugin for /hub.",
+    "should_trigger": false,
+    "rationale": "Server plugin implementation only."
+  },
+  {
+    "query": "Build an MCP server in TypeScript.",
+    "should_trigger": false,
+    "rationale": "MCP implementation itself."
+  },
+  {
+    "query": "Write a Mineflayer bot.",
+    "should_trigger": false,
+    "rationale": "Different Minecraft automation framework."
+  },
+  {
+    "query": "Create a datapack loot table.",
+    "should_trigger": false,
+    "rationale": "Datapack authoring."
+  },
+  {
+    "query": "Debug my Bukkit PlayerInteractEvent listener.",
+    "should_trigger": false,
+    "rationale": "Server Java event code."
+  },
+  {
+    "query": "Write a Fabric mixin for entity rendering.",
+    "should_trigger": false,
+    "rationale": "Fabric mod internals without JsMacros."
+  },
+  {
+    "query": "Generate a WorldEdit schematic.",
+    "should_trigger": false,
+    "rationale": "WorldEdit task without client macro scripting."
+  },
+  {
+    "query": "Explain ItemsAdder font images API.",
+    "should_trigger": false,
+    "rationale": "ItemsAdder API alone."
+  },
+  {
+    "query": "How do I expose a new MCP tool to Claude Code?",
+    "should_trigger": false,
+    "rationale": "MCP wrapper engineering."
+  },
+  {
+    "query": "Configure Velocity proxy forwarding.",
+    "should_trigger": false,
+    "rationale": "Proxy/server configuration."
+  }
+]

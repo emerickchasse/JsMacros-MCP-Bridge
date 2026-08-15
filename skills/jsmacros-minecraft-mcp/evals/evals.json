@@ -1,0 +1,59 @@
+{
+  "skill_name": "jsmacros-minecraft-26-1-2",
+  "evals": [
+    {
+      "id": "screenshot-source-lookup",
+      "prompt": "Take a screenshot from execute_mc_jsmacros on the Minecraft 26.1.2 client and return the callback result.",
+      "expected_output": "Uses the runtime-verified 2-argument Player.takeScreenshot(folder, callback), dispatches with Client.runOnMainThread(callback, true, 8000), transfers callback text through GlobalVars.putString/getString, waits on the script thread, and accounts for the <macroFolder>/<folder>/screenshots output shape.",
+      "files": []
+    },
+    {
+      "id": "inspect-live-client",
+      "prompt": "Tell me where the client is, what it is looking at, the open screen, dimension and biome.",
+      "expected_output": "Uses Player, World and Hud APIs and returns primitive structured state.",
+      "files": []
+    },
+    {
+      "id": "break-and-read-back",
+      "prompt": "Break block 100 64 -30 through JsMacros and report the before/after block IDs.",
+      "expected_output": "Uses InteractionManagerHelper plus World.getBlock read-back.",
+      "files": []
+    },
+    {
+      "id": "inventory-hotbar",
+      "prompt": "Find minecraft:stone in inventory and move one stack to hotbar slot 0.",
+      "expected_output": "Finds Inventory.findItem, swapHotbar and setSelectedHotbarSlotIndex.",
+      "files": []
+    },
+    {
+      "id": "resource-pack-glyph",
+      "prompt": "Check whether this PUA menu glyph is actually loaded client-side without relying only on visual guessing.",
+      "expected_output": "Can discover Chat.getTextWidth and use client text width as a measurable signal.",
+      "files": []
+    },
+    {
+      "id": "version-nbt",
+      "prompt": "Item getNBT is breaking on enchanted items on this 26.1.2 client. Investigate the exact JsMacros version context.",
+      "expected_output": "Finds the v2.0.3 registry-reference NBT fix and the 26.1.2 version pairing.",
+      "files": []
+    },
+    {
+      "id": "screenshot-named-overload-regression",
+      "prompt": "Save a screenshot as gtc-menu.png with JsMacros 2.0.3.",
+      "expected_output": "Finds the target-runtime fact that Player.takeScreenshot(folder,file,callback) throws ArithmeticException: / by zero. Uses the generated-name overload for the working screenshot path and reports the generated filename from the callback.",
+      "files": []
+    },
+    {
+      "id": "screenshot-missing-directory",
+      "prompt": "Screenshot callback says Couldn't save screenshot and no exception was thrown. Explain the exact path behavior seen on this client.",
+      "expected_output": "Reports that folder is used as a parent and the downstream screenshot helper adds screenshots; folder='screenshots' produced <macroFolder>/screenshots/screenshots/<timestamp>.png, and the directory had to exist before the successful run.",
+      "files": []
+    },
+    {
+      "id": "screenshot-callback-marshalling",
+      "prompt": "My screenshot happens, but assigning the callback result to a local JS variable still returns null. Use the verified pattern.",
+      "expected_output": "Uses GlobalVars.putString inside the callback and GlobalVars.getString from the script thread after Client.waitTick; retains JavaWrapper.methodToJava and main-thread dispatch.",
+      "files": []
+    }
+  ]
+}
